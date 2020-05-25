@@ -1,0 +1,42 @@
+Fold = 8
+
+(N = 1)
+Train data from 138 to 1096
+Valid data from 1 to 137
+Gaussian model with MAP (λ=95.589), Erms = 15.095
+
+(N = 2)
+Train data from 1 to 136 and 275 to 1096
+Valid data from 137 to 274
+Gaussian model with MAP (λ=93.760), Erms = 9.237
+
+(N = 3)
+Train data from 1 to 273 and 412 to 1096
+Valid data from 274 to 411
+Gaussian model with MAP (λ=95.778), Erms = 9.950
+
+(N = 4)
+Train data from 1 to 410 and 549 to 1096
+Valid data from 411 to 548
+Gaussian model with MAP (λ=92.094), Erms = 9.525
+
+(N = 5)
+Train data from 1 to 547 and 686 to 1096
+Valid data from 548 to 685
+Gaussian model with MAP (λ=90.643), Erms = 8.019
+
+(N = 6)
+Train data from 1 to 684 and 823 to 1096
+Valid data from 685 to 822
+Gaussian model with MAP (λ=87.861), Erms = 11.716
+
+(N = 7)
+Train data from 1 to 821 and 960 to 1096
+Valid data from 822 to 959
+Gaussian model with MAP (λ=84.238), Erms = 7.647
+
+(N = 8)
+Train data from 1 to 958
+Valid data from 959 to 1096
+Gaussian model with MAP (λ=76.197), Erms = 8.191
+
