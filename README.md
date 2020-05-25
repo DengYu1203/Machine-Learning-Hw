@@ -1,5 +1,5 @@
 # Machine-Learning-Hw
-2019 NCTU machine learning course
+2019 NCTU machine learning course in EE.
 
 ## [Homework 1](ML_HW1/)
 [Homework 1 detail](ML_HW1/2019_ML_HW1.pdf)
