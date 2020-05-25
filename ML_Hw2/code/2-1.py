@@ -11,9 +11,7 @@ faces_num = 5
 class_sam = 10
 target = []
 target_test = []
-itera_num = 50
-step_size = 0.001 
-thres = 10**(-3)
+
 
 test_raw = []
 Test_result = []
@@ -102,7 +100,9 @@ def plot(error, accu, counter,method_type):
     plt.show()
     
 
-
+iteration = 50
+step = 0.001 
+threshold = pow(10,-3)
 
 def gradient_descent(img_train, target):
 
@@ -125,7 +125,7 @@ def gradient_descent(img_train, target):
 
                 if (math.isnan(a[c][n])):
                     print('NAN OCCURRED')
-                    print('The learning rate is ',step_size)
+                    print('The learning rate is ',step)
                     print('The error is:\n',error_list)
                     print('The accuracy is\n',accu_list)
                     exit(-1)
@@ -137,16 +137,16 @@ def gradient_descent(img_train, target):
                 E -= error
             Gradient[c] = grad_e
         error_list.append(E)
-        w = w - step_size*Gradient
+        w = w - step*Gradient
 
         counter += 1
 
         accuracy = accur(w,target,np.array(img_train))
         accu_list.append(accuracy)
         
-        stop = ( math.fabs( ((error_list[-1]-last_E)/(last_E+0.0001))) < thres )
+        stop = ( math.fabs( ((error_list[-1]-last_E)/(last_E+0.0001))) < threshold )
 
-        if ( stop  or counter >= itera_num ):
+        if ( stop  or counter >= iteration ):
 
             plot(error_list, accu_list, counter,'Gradient_')
             return w
@@ -186,10 +186,7 @@ def result(target_test,accu_test,method_type):
 
 
 def newton(img_train, target, d):
-    # img_train = imgs_arr.tolist()
-    # print(len(img_train))
-    # print('In New, type of img_train is:',type(img_train))
-    # print(type(img_train[0]),img_train[0].shape)
+
     total_N = np.array(img_train).shape[0]
     w = np.zeros((faces_num,len(img_train[0])))
 
@@ -243,7 +240,7 @@ def newton(img_train, target, d):
         accuracy = accur(w,target,np.array(img_train))
         accu_list.append(accuracy)
 
-        if ( counter >= itera_num ):
+        if ( counter >= iteration ):
             plot(error_list, accu_list, counter,'Newton_')
             return w
         last_E = E
@@ -292,7 +289,7 @@ result(target_test,accu_test,'Gradient_')
 
 
 # Newton Method
-k_list = [10]
+k_list = [2,5,10]
 for k in k_list:
     whole_data = np.array(img_train + img_test).T
     N = whole_data.shape[1]

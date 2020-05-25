@@ -25,10 +25,11 @@ def k_nearest(test_x, train_x,k):
     return data
     
 # input whole_data (np.array(dxN)) output dimension-reduced data y (np.array(kxN)) 
-def pca(whole_data, k):
+def pca(whole_data, k,train_size):
     
     # print(whole_data.shape)
-    N = whole_data.shape[1] #num of date
+    # N = whole_data.shape[1] #num of date
+    N = train_size
     d = whole_data.shape[0] #num of parameter
     mean = np.zeros((N,1))
     scatter = np.zeros((d,d))
@@ -57,8 +58,19 @@ def pca(whole_data, k):
     for i in range(k):
         transform_w[:,i] = eig_pairs[i][1]
 
-    y = transform_w.T.dot(whole_data)
-    return y
+    y = (transform_w.T.dot(whole_data)).T
+    train_pca = np.zeros((train_size,len(y[0])))
+    test_pca = np.zeros((len(y)-train_size,len(y[0])))
+    # print(len(y[0]))
+    for i in range(0,train_size):
+        for j in range(len(y[0])):
+            train_pca[i][j] = y[i][j]
+    for i in range(train_size,len(y)):
+        for j in range(len(y[0])):
+            test_pca[i-train_size][j] = y[i][j]
+    # print(train_pca)
+    # print(test_pca)
+    return train_pca,test_pca
 
 def plot_fig(test_x,train_x,fig_name):
     k_list = []
@@ -162,19 +174,28 @@ fig_name = 'K-nearest-neighbor (using 9 features)'
 plot_fig(test_x,train_x,fig_name)
 
 
-train_x_pca = np.zeros((len(train_x[0])-1,len(train_x)))
-test_x_pca = np.zeros((len(test_x[0])-1,len(test_x)))
+# train_x_pca = np.zeros((len(train_x[0])-1,len(train_x)))
+# test_x_pca = np.zeros((len(test_x[0])-1,len(test_x)))
+# for i in range(len(train_x[0])-1):
+#     for j in range(len(train_x)):
+#         train_x_pca[i][j] = train_x[j][i+1]
+# for i in range(len(test_x[0])-1):
+#     for j in range(len(test_x)):
+#         test_x_pca[i][j] = test_x[j][i+1]
+
+train_pca = np.zeros((len(train_x[0])-1,len(input_x)))
 for i in range(len(train_x[0])-1):
-    for j in range(len(train_x)):
-        train_x_pca[i][j] = train_x[j][i+1]
+    for j in range(train_size):
+        train_pca[i][j] = train_x[j][i+1]
 for i in range(len(test_x[0])-1):
-    for j in range(len(test_x)):
-        test_x_pca[i][j] = test_x[j][i+1]
+    for j in range(train_size,len(input_x)):
+        train_pca[i][j] = test_x[j-train_size][i+1]
 
 fig_name = 'K-nearest-neighbor (using 7 features)'
 # save_path = osp.join('..','output','3',fig_name)
-train_pca_7 = (pca(np.array(train_x_pca),7)).T
-test_pca_7 = (pca(np.array(test_x_pca),7)).T
+# train_pca_7 = (pca(np.array(train_x_pca),7,train_size)).T
+# test_pca_7 = (pca(np.array(test_x_pca),7,train_size)).T
+train_pca_7,test_pca_7 = pca(np.array(train_pca),7,train_size)
 
 train_pca_7_in = np.zeros((len(train_pca_7),len(train_pca_7[0])+1))
 test_pca_7_in = np.zeros((len(test_pca_7),len(test_pca_7[0])+1))
@@ -190,8 +211,9 @@ for i in range(len(test_pca_7_in)):
 plot_fig(test_pca_7_in,train_pca_7_in,fig_name)
 
 fig_name = 'K-nearest-neighbor (using 6 features)'
-train_pca_6 = (pca(np.array(train_x_pca),6)).T
-test_pca_6 = (pca(np.array(test_x_pca),6)).T
+# train_pca_6 = (pca(np.array(train_x_pca),6)).T
+# test_pca_6 = (pca(np.array(test_x_pca),6)).T
+train_pca_6,test_pca_6 = pca(np.array(train_pca),6,train_size)
 train_pca_6_in = np.zeros((len(train_pca_6),len(train_pca_6[0])+1))
 test_pca_6_in = np.zeros((len(test_pca_6),len(test_pca_6[0])+1))
 for i in range(len(train_pca_6_in)):
@@ -206,8 +228,9 @@ for i in range(len(test_pca_6_in)):
 plot_fig(test_pca_6_in,train_pca_6_in,fig_name)
 
 fig_name = 'K-nearest-neighbor (using 5 features)'
-train_pca_5 = (pca(np.array(train_x_pca),5)).T
-test_pca_5 = (pca(np.array(test_x_pca),5)).T
+# train_pca_5 = (pca(np.array(train_x_pca),5)).T
+# test_pca_5 = (pca(np.array(test_x_pca),5)).T
+train_pca_5,test_pca_5 = pca(np.array(train_pca),5,train_size)
 train_pca_5_in = np.zeros((len(train_pca_5),len(train_pca_5[0])+1))
 test_pca_5_in = np.zeros((len(test_pca_5),len(test_pca_5[0])+1))
 for i in range(len(train_pca_5_in)):
